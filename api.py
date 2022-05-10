@@ -3,7 +3,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from crud import get_all_users, create_user, update_user, delete_user, get_user_by_id
+from crud import get_all_users, create_user, update_user_by_id, delete_user_by_id, get_user_by_id
 from database import get_db
 from exceptions import UserException
 from schemas import Users, CreateAndUpdateUser
@@ -30,7 +30,7 @@ async def add_user(new_user: CreateAndUpdateUser, session: Session = Depends(get
 
 # API endpoint to get info of a particular user by id
 @app.get("/api/user/{user_id}", response_model=Users)
-async def get_user_info(user_id: int, session: Session = Depends(get_db)):
+async def get_user(user_id: int, session: Session = Depends(get_db)):
     try:
         return await get_user_by_id(session, user_id)
     except UserException as err:
@@ -39,18 +39,18 @@ async def get_user_info(user_id: int, session: Session = Depends(get_db)):
 
 # API endpoint to update a existing user
 @app.put("/api/user/{user_id}", response_model=Users)
-async def update_user_info(user_id: int, new_info: CreateAndUpdateUser,
+async def update_user(user_id: int, new_info: CreateAndUpdateUser,
                            session: Session = Depends(get_db)):
     try:
-        return await update_user(session, user_id, new_info)
+        return await update_user_by_id(session, user_id, new_info)
     except UserException as err:
         raise HTTPException(**err.__dict__)
 
 
 # API endpoint to delete a user from the data base
 @app.delete("/api/user/{user_id}")
-async def delete_user_info(user_id: int, session: Session = Depends(get_db)):
+async def delete_user(user_id: int, session: Session = Depends(get_db)):
     try:
-        return await delete_user(session, user_id)
+        return await delete_user_by_id(session, user_id)
     except UserException as err:
         raise HTTPException(**err.__dict__)

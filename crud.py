@@ -38,7 +38,7 @@ async def create_user(session: Session, user: CreateAndUpdateUser) -> User:
 
 
 # Function to update details of the user
-async def update_user(session: Session, _id: int, info_update: CreateAndUpdateUser) -> User:
+async def update_user_by_id(session: Session, _id: int, info_update: CreateAndUpdateUser) -> User:
     user = await get_user_by_id(session, _id)
 
     if user is None:
@@ -55,7 +55,7 @@ async def update_user(session: Session, _id: int, info_update: CreateAndUpdateUs
 
 
 # Function to delete a user from the db
-async def delete_user(session: Session, _id: id):
+async def delete_user_by_id(session: Session, _id: id):
     user = await get_user_by_id(session, _id)
 
     if user is None:
