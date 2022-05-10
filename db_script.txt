@@ -1,0 +1,10 @@
+# db_script.txt
+
+create database crud_api;
+use crud_api;
+
+create table users(
+id int AUTO_INCREMENT PRIMARY KEY,
+name varchar(50) NOT NULL,
+email varchar(50) NOT NULL,
+password varchar(50) NOT NULL);
